@@ -10,7 +10,7 @@
         <div class="pull-right">
         @can('role-create')
             <a class="btn btn-success" href="{{ route('roles.create') }}"> Create New Role</a>
-            @endcan
+        @endcan
         </div>
     </div>
 </div>
@@ -39,7 +39,7 @@
                 <a class="btn btn-primary" href="{{ route('roles.edit',$role->id) }}">Edit</a>
             @endcan
             @can('role-delete')
-                <form action="{{route('roles.destroy',$role->id)}}" method="POST">
+                <form action="{{route('roles.destroy',$role->id)}}" method="POST" style="display: inline">
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">DELETE</button>
                 </form>

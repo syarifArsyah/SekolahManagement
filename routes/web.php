@@ -33,4 +33,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('roles', RolesController::class);
     Route::resource('user', UserController::class);
     Route::resource('jurusan', JurusanController::class);
+
+    Route::get('/get', [UserController::class, 'getRoleName']);
 });

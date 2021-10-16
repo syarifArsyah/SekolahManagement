@@ -31,14 +31,14 @@
                     <td>{{$user->name}}</td>
                     <td>{{$user->email}}</td>
                     <td>
-                        {{-- @if (!empty($user->getRolesName()))
-                            @foreach ($user->getRoleName() as $v)
+                        @if (!empty($user->getRoleNames()))
+                            @foreach ($user->getRoleNames() as $v)
                                 <label for="" class="badge badge-success">{{$v}}</label>
                             @endforeach
-                        @endif --}}
+                        @endif
                     </td>
                     <td>
-                        <a href="{{route('user.show',$user->id)}}" class="btn btn-info">Show</a>
+                        {{-- <a href="{{route('user.show',$user->id)}}" class="btn btn-info">Show</a> --}}
                         <a href="{{route('user.edit',$user->id)}}" class="btn btn-primary">Edit</a>
                         <form action="{{route('user.destroy',$user->id)}}" method="POST" style="display : inline">
                             @method('DELETE')

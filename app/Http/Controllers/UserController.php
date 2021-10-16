@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use DB;
+use Hash;
+use Illuminate\Support\Arr;
+use Spatie\Permission\Traits\HasRoles;
 
 class UserController extends Controller
 {
@@ -43,20 +45,20 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name'  => 'required',
+            'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
-            'roles'    => 'required'
+            'roles' => 'required'
         ]);
 
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
 
         $user = User::create($input);
-        $user->assignRole($request->input(['roles']));
+        $user->assignRole($request->input('roles'));
 
-        return redirect()->route('user.index')
-            ->with('success', 'Data user berhasil ditambahkan');
+        return redirect()->route('users.index')
+            ->with('success', 'User created successfully');
     }
 
     /**
@@ -96,10 +98,10 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name'  => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
-            'roles'    => 'required'
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'password' => 'same:confirm-password',
+            'roles' => 'required'
         ]);
 
         $input = $request->all();
@@ -116,7 +118,7 @@ class UserController extends Controller
         $user->assignRole($request->input('roles'));
 
         return redirect()->route('users.index')
-            ->with('success', 'Data user berhasil diupdate');
+            ->with('success', 'User updated successfully');
     }
 
     /**
@@ -128,8 +130,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         User::find($id)->delete();
-
         return redirect()->route('users.index')
-            ->with('success', 'Data User berhasil dihapus');
+            ->with('success', 'User deleted successfully');
     }
 }

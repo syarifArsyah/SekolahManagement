@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\JurusanController;
+use App\Http\Controllers\RolesController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +24,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('roles', RolesController::class);
+    Route::resource('user', UserController::class);
+    Route::resource('jurusan', JurusanController::class);
+});
